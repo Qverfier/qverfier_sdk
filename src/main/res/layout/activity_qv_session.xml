@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:orientation="vertical"
+    android:background="#1A52C1"
+    android:layout_height="match_parent"
+    tools:context=".SessionStart">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:orientation="vertical"
+        android:layout_gravity="center"
+        android:gravity="center"
+        android:layout_marginTop="10dp"
+        android:layout_height="wrap_content">
+        <TextView
+            android:layout_width="wrap_content"
+            android:textStyle="bold"
+            android:textColor="#fff"
+
+            android:textSize="23dp"
+            android:layout_height="wrap_content"
+            android:text="Activate"></TextView>
+        <ImageView
+            android:layout_width="100dp"
+            android:id="@+id/logo"
+            android:layout_height="100dp"></ImageView>
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="40dp"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:textSize="21dp"
+            android:textColor="#fff"
+            android:text="Please Enter \n Your Phone Number"></TextView>
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_margin="20dp"
+        android:gravity="center"
+        android:layout_marginTop="70dp"
+android:id="@+id/startung_ui"
+        android:orientation="vertical"
+
+        android:layout_height="wrap_content">
+<TextView
+    android:layout_width="match_parent"
+    android:layout_gravity="center"
+    android:gravity="center"
+    android:id="@+id/text_error"
+    android:textColor="#F50B0B"
+    android:text="* Mobile number is required"
+    android:layout_height="wrap_content">
+
+</TextView>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:layout_marginTop="50dp"
+            android:layout_margin="10dp"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:layout_marginRight="5dp"
+            android:orientation="horizontal"
+            android:background="@drawable/edit_text"
+            android:padding="5dp">
+            <ImageView
+                android:layout_width="30dp"
+                android:src="@drawable/india_new"
+                android:layout_height="30dp"></ImageView>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="24dp"
+                android:layout_marginLeft="03dp"
+                android:textColor="#000"
+                android:text="+91 "></TextView>
+            <View
+                android:layout_width="2dp"
+android:layout_marginTop="5dp"
+                android:layout_marginBottom="5dp"
+                android:background="#DEE8FA"
+                android:layout_height="match_parent"></View>
+            <com.cielyang.android.clearableedittext.ClearableEditText
+                android:id="@+id/mobile_number"
+                android:layout_width="match_parent"
+                android:singleLine="true"
+                android:background="@null"
+                android:text=""
+                android:layout_marginLeft="5dp"
+                android:layout_height="match_parent"
+                android:hint="Enter phone number"
+                android:textColorHint="#CCCED3"
+                android:textColor="#1A52C1"
+                android:inputType="number"
+                android:textSize="17sp"
+                android:textStyle="normal" />
+
+        </LinearLayout>
+
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="55dp"
+            android:textColor="#fff"
+            android:layout_marginTop="30dp"
+            android:ems="10"
+            android:layout_margin="10dp"
+            android:padding="5dp"
+            android:text="Submit"
+            android:id="@+id/submit_data"
+            android:background="@drawable/submit_button"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_margin="20dp"
+        android:gravity="center"
+        android:id="@+id/calling_ui"
+        android:orientation="vertical"
+
+        android:layout_height="wrap_content">
+
+
+<TextView
+    android:layout_width="match_parent"
+    android:text="Powered by Qverifier"
+    android:gravity="center"
+    android:textColor="#fff"
+    android:layout_height="wrap_content"></TextView>
+
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_margin="20dp"
+        android:gravity="center"
+        android:id="@+id/sms_ui"
+        android:orientation="vertical"
+
+        android:layout_height="wrap_content">
+
+
+
+    </LinearLayout>
+</LinearLayout>

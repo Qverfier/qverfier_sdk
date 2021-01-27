@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">qverifier</string>
+    <string name="call_success">"AuthCALL \n Success"</string>
+    <string name="back_press">"AuthCALL \n Success"</string>
+    <string name="invalid_key">"Invalid App Key"</string>
+    <string name="invalid_secret">"Invalid Secret Key"</string>
+    <string name="invalid_number">"Invalid Secret Key"</string>
+</resources>

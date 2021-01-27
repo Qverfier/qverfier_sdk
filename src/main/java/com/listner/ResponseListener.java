@@ -1,0 +1,10 @@
+package com.listner;
+
+import org.json.JSONObject;
+
+public interface ResponseListner {
+
+    public abstract void onSuccess(JSONObject data);
+
+    public abstract void onError(JSONObject data);
+}
