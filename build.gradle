@@ -50,8 +50,8 @@ repositories {
 
         credentials {
             /**Create github.properties in root project folder file with gpr.usr=GITHUB_USER_ID  & gpr.key=PERSONAL_ACCESS_TOKEN**/
-            username = "shivtelscpl@gmail.com"
-            password = "sdk@32100"
+            username = ""
+            password = ""
         }
     }
 }
