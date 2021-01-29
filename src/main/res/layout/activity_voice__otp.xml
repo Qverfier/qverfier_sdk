@@ -1,26 +1,34 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:padding="50dp"
+    android:background="@drawable/background"
     android:layout_height="match_parent"
-    tools:context=".AuthCALL">
+    tools:context=".AuthenticationByCall">
+
     <LinearLayout
         android:layout_width="match_parent"
-        android:gravity="center"
+     android:layout_marginTop="90dp"
+        android:visibility="visible"
+        android:id="@+id/linear_one"
         android:orientation="vertical"
+
+        android:layout_height="match_parent">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_gravity="center"
+        android:gravity="center"
         android:layout_height="wrap_content">
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_gravity="right"
-            android:gravity="right"
-            android:id="@+id/counttime"
-            android:layout_height="wrap_content"
+<ImageView
+    android:layout_width="90dp"
+    android:id="@+id/thumbs_icon"
+    android:visibility="gone"
+    android:src="@drawable/thumbs"
+    android:layout_height="90dp">
+</ImageView>
 
-            android:textSize="21dp"
-
-            android:text="20"></TextView>
+    </LinearLayout>
         <TextView
             android:layout_width="match_parent"
             android:layout_gravity="center"
@@ -28,34 +36,44 @@
             android:layout_marginTop="20dp"
             android:layout_height="wrap_content"
             android:textStyle="bold"
-            android:textSize="27dp"
+            android:textSize="24dp"
+            android:textColor="#fff"
             android:id="@+id/text_message"
-            android:text="VOICE OTP \nAUTHENTICATION "></TextView>
+            android:text="Enter OTP"></TextView>
         <TextView
             android:layout_width="match_parent"
             android:layout_gravity="center"
             android:gravity="center"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
             android:layout_marginTop="20dp"
             android:layout_height="wrap_content"
-            android:textSize="19dp"
+
             android:id="@+id/text_other"
-            android:text="Please enter OTP"></TextView>
+            android:textColor="#fff"
+            android:text="The code that you just received on a call"></TextView>
         <LinearLayout
             android:id="@+id/layout_otp"
             android:layout_width="match_parent"
             android:layout_height="90dp"
             android:layout_gravity="center"
-            android:layout_marginTop="30dp"
+android:layout_marginLeft="10dp"
+            android:layout_marginTop="20dp"
             android:gravity="center"
             android:layout_below="@+id/layout_header"
             android:orientation="horizontal">
 
             <EditText
                 android:id="@+id/editTextone"
-                android:layout_width="40dp"
-                android:layout_height="42dp"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_marginRight="10dp"
                 android:inputType="number"
+                android:textCursorDrawable="@drawable/cursoer"
+                android:gravity="center"
+                android:text=""
                 android:maxLength="1"
+                android:background="@drawable/edit_text"
                 android:nextFocusRight="@+id/editText_two">
 
                 <requestFocus />
@@ -63,41 +81,160 @@
 
             <EditText
                 android:id="@+id/editTexttwo"
-                android:layout_width="40sp"
-                android:layout_height="42sp"
+                android:background="@drawable/edit_text"
+                android:layout_width="50dp"
+                android:gravity="center"
+                android:textCursorDrawable="@drawable/cursoer"
+                android:layout_height="50dp"
+                android:layout_marginRight="10dp"
                 android:inputType="number"
                 android:maxLength="1"/>
 
             <EditText
                 android:id="@+id/editTextthree"
-                android:layout_width="40sp"
-                android:layout_height="42sp"
+                android:layout_width="50dp"
+                android:gravity="center"
+                android:layout_height="50dp"
+                android:textCursorDrawable="@drawable/cursoer"
+                android:layout_marginRight="10dp"
                 android:inputType="number"
+                android:background="@drawable/edit_text"
                 android:maxLength="1"/>
 
             <EditText
                 android:id="@+id/editTextfour"
-                android:layout_width="40sp"
-                android:layout_height="42sp"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_marginRight="10dp"
+                android:textCursorDrawable="@drawable/cursoer"
+                android:background="@drawable/edit_text"
+                android:gravity="center"
                 android:inputType="number"
                 android:maxLength="1"/>
 
         </LinearLayout>
-        <Button
-            android:layout_width="150dp"
-            android:background="#097AD5"
-            android:textColor="#fff"
-            android:id="@+id/submit_otp"
-            android:layout_height="50dp"
-            android:layout_below="@+id/layout_otp"
-            android:text="SUBMIT" />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_gravity="center"
+            android:id="@+id/timer_text"
+            android:gravity="center"
+            android:layout_marginTop="10dp"
+            android:layout_height="wrap_content">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="#2fd38e"
+
+                android:layout_marginLeft="10dp"
+                android:text="Code expires in : "
+                ></TextView>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_marginRight="10dp"
+                android:id="@+id/counttime"
+                android:layout_height="wrap_content"
+                android:textColor="#2fd38e"
+
+
+                android:text="20"></TextView>
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+          android:layout_marginTop="40dp"
+            android:gravity="center"
+
+            android:layout_height="wrap_content">
+            <Button
+                android:layout_width="150dp"
+                android:textColor="#fff"
+                android:id="@+id/submit_otp"
+                android:textSize="23dp"
+                android:layout_height="50dp"
+                android:layout_below="@+id/layout_otp"
+
+                android:background="@drawable/button"
+                android:text="SUBMIT" />
+        </LinearLayout>
+
         <pl.droidsonroids.gif.GifImageView
             android:layout_width="110dp"
+            android:visibility="gone"
             android:layout_marginTop="40dp"
             android:layout_height="110dp"
             android:id="@+id/success"
             android:src="@drawable/success"
             />
     </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
 
-</LinearLayout>
+        android:id="@+id/linear_two"
+        android:background="#e42c23"
+        android:orientation="vertical"
+        android:visibility="gone"
+        android:layout_height="match_parent">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:orientation="vertical"
+            android:layout_marginTop="90dp"
+            android:layout_height="wrap_content">
+            <ImageView
+                android:layout_width="100dp"
+                android:layout_gravity="center"
+                android:src="@drawable/failed_icon"
+                android:layout_height="100dp"></ImageView>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:layout_marginTop="20dp"
+                android:layout_height="wrap_content"
+                android:textStyle="bold"
+                android:textSize="27dp"
+                android:textColor="#fff"
+
+                android:text="Failed"></TextView>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:layout_marginTop="20dp"
+                android:layout_height="wrap_content"
+                android:textSize="19dp"
+
+                android:textColor="#fff"
+                android:text="Your phone number could not be verified"></TextView>
+        </LinearLayout>
+
+
+        <Button
+            android:layout_width="150dp"
+            android:textColor="#fff"
+            android:layout_height="50dp"
+            android:visibility="gone"
+            android:layout_below="@+id/layout_otp"
+            android:background="@drawable/submit_button"
+            android:text="SUBMIT" />
+
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:gravity="center"
+
+        android:layout_alignParentBottom="true"
+
+        android:orientation="horizontal"
+        android:id="@+id/continue_layout"
+        android:shrinkColumns="*"
+        android:stretchColumns="*">
+        <TextView
+            android:layout_width="match_parent"
+            android:text="Powered by Qverifier"
+            android:gravity="center"
+            android:textColor="#fff"
+            android:layout_height="wrap_content"></TextView>
+
+    </LinearLayout>
+</RelativeLayout>

@@ -17,6 +17,7 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -98,9 +99,28 @@ public final class PostServer {
 
                 } else {
                     parseVolleyError(error);
+                    String responseBody = null;
+                    try {
+                        responseBody = new String(error.networkResponse.data, "utf-8");
+                    } catch (UnsupportedEncodingException e) {
+                        e.printStackTrace();
+                    }
+                    try {
 
+
+                        JSONObject data = new JSONObject(responseBody);
+                   /* JSONArray errors = data.getJSONArray("errors");
+                    JSONObject jsonMessage = errors.getJSONObject(0);*/
+                        listener.onResponse(data);
+                    }catch (JSONException e){
+
+                        e.printStackTrace();
+                    }
                 }
 
+//                listener.onResponse(error);
+
+                //  listener.onError("Failed");
                 Log.d("Error.Response", "error=" + error);
             }
         }));
@@ -126,8 +146,8 @@ public final class PostServer {
         try {
             String responseBody = new String(error.networkResponse.data, "utf-8");
             JSONObject data = new JSONObject(responseBody);
-          //  JSONObject errors = data.getJSONObject("success");
-           // JSONObject jsonMessage = errors.getJSONObject(0);
+            //  JSONObject errors = data.getJSONObject("success");
+            // JSONObject jsonMessage = errors.getJSONObject(0);
             String message = data.getString("data");
 
             Toast.makeText(PostServer.this.getContext(), message, Toast.LENGTH_LONG).show();

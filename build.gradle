@@ -1,4 +1,6 @@
 apply plugin: 'com.android.library'
+apply plugin: 'maven-publish'
+
 
 android {
     compileSdkVersion 30
@@ -14,8 +16,23 @@ android {
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles 'consumer-rules.pro'
     }
-
-    buildTypes {
+    def getVersionName = { ->
+        return "1.0.1"  // Replace with version Name
+    }
+    def getArtificatId = { ->
+        return "com.qverifier" // Replace with library name ID
+    }
+    publishing {
+        publications {
+            bar(MavenPublication) {
+                groupId 'auth' // Replace with group ID
+                artifactId getArtificatId()
+                version getVersionName()
+                artifact("$buildDir/outputs/aar/${getArtificatId()}-release.aar")
+            }
+        }
+    }
+            buildTypes {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
@@ -23,7 +40,21 @@ android {
     }
 
 }
+repositories {
+    maven {
+        name = "GitHubPackages"
+        /** Configure path of your package repository on Github
+         *  Replace GITHUB_USERID with your/organisation Github userID and REPOSITORY with the repository name on GitHub
+         */
+        url = uri("https://maven.pkg.github.com/GITHUB_USERID/REPOSITORY")
 
+        credentials {
+            /**Create github.properties in root project folder file with gpr.usr=GITHUB_USER_ID  & gpr.key=PERSONAL_ACCESS_TOKEN**/
+            username = "shivtelscpl@gmail.com"
+            password = "sdk@32100"
+        }
+    }
+}
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
 

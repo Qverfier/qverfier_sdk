@@ -3,7 +3,7 @@ package com.utility;
 import android.os.CountDownTimer;
 
 public class Constant {
-    public static String url="http://112.196.109.70:8171/rv/api/ringverifier/process";
+    public static String url="https://flash.qverifier.com/qv/api/process";
     public static int ACTION_CALL=0;
     public static int ACTION_SMS=0;
     public static int ACTION_VOICE_SMS=0;
@@ -18,4 +18,6 @@ public class Constant {
    public static CountDownTimer count_down;
     public static String Secret_Key="secretkey";
     public static String App_Key="appkey";
+
+
 }

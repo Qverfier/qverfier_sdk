@@ -7,60 +7,55 @@ import android.os.Handler;
 import android.os.Message;
 import android.util.Log;
 
-import com.control.AuthTranData;
-import com.listner.ResponseListner;
+import com.listner.ResponseListener;
 import com.listner.ResponseListnerOnBoard;
-import com.utility.AuthAction;
+import com.utility.Constant;
+import com.utility.PreferancesData;
+import com.utility.QVAction;
+import com.utility.Validation;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import static com.qverifier.OnBoardAuthentication.startSession_;
-import static com.utility.AuthAction.Failed_Response;
-import static com.utility.AuthAction.Progress_;
-import static com.utility.AuthAction.Success_;
+import static com.utility.Constant.ACTION_TYPE;
+import static com.utility.Constant.Device_Id;
+import static com.utility.Constant.Failed_Response;
+import static com.utility.Constant.MobileNumber;
+import static com.utility.Constant.Progress_;
+import static com.utility.Constant.Success_;
 import static com.utility.OnboardRequest.check_otp;
 
-public class QverifierAuthentication {
+public class QVAuthentication {
     static String data;
-    public static ResponseListner listner;
+    public static ResponseListener listener;
     public static Handler mHandler;
     public static Handler OnboardHandler;
 
-    public QverifierAuthentication(ResponseListner listner) {
-        this.listner = listner;
+    public QVAuthentication(ResponseListener listener) {
+        this.listener = listener;
     }
-// change name ---> authenticate_....chnage listner speling
-    public static void authenticate(final Context context, String app_Key, String secret_Key, String logo, final ResponseListner listner) {
-        //  listner.onSuccess(data);
-        // null data handel
-        AuthTranData.Secret_Key = secret_Key;
-        AuthTranData.App_Key = app_Key;
-        AuthAction.logo = logo;
-        Intent intent = new Intent(context, SessionStart.class);
-        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        context.startActivity(intent);
-
+    public static void authenticate(final Context context, String app_Key, String secret_Key, String logo, final ResponseListener listener) {
         mHandler = new Handler() {
             @Override
             public void handleMessage(Message msg) {
                 Bundle bundle = msg.getData();
-                // change name
-                String string = bundle.getString("Status");
-                if (string.equals("Success")) {
+                String data = bundle.getString("Status");
+                if (data.equals("Success")) {
                     try {
                         JSONObject response = new JSONObject(Success_);
-                        listner.onSuccess(response);
+                        PreferancesData.saveLastAction(context, null);
+                        PreferancesData.saveTimeCounter(context, null);
+                        listener.onSuccess(response);
                     } catch (JSONException e) {
-                        //failed
                         e.printStackTrace();
                     }
 
                 }
-             else    if (string.equals("Failed")) {
+                else    if (data.equals("Failed")) {
                     try {
                         JSONObject response = new JSONObject(Failed_Response);
-                        listner.onError(response);
+                        listener.onError(response);
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
@@ -69,12 +64,36 @@ public class QverifierAuthentication {
                 }
             }
         };
+        Device_Id= QVAction.getDeviceId(context);
+        if(Validation.appKey_(app_Key).equals("false")){
+            Message msg = mHandler.obtainMessage();
+            Bundle bundle = new Bundle();
+            bundle.putString("Status", "Failed");
+            msg.setData(bundle);
+            mHandler.sendMessage(msg);
+        }
+        else if(Validation.secretKey_(secret_Key).equals("false")){
+            Message msg = mHandler.obtainMessage();
+            Bundle bundle = new Bundle();
+            bundle.putString("Status", "Failed");
+            msg.setData(bundle);
+            mHandler.sendMessage(msg);
+        }
+        else {
+            Constant.logo = logo;
+            Intent intent = new Intent(context, QVSession.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            context.startActivity(intent);
+        }
+
+
+
     }
 
 
-    public static void sendRequestOnboard(final Context context, String app_Key, String secret_Key, String mobile_number, int action, final ResponseListnerOnBoard listner_) {
-        AuthTranData.Secret_Key = secret_Key;
-        AuthTranData.App_Key = app_Key;
+    public static void authenticationOnboard(final Context context, String app_Key, String secret_Key, String mobile_number, int action, final ResponseListnerOnBoard listner_) {
+        Constant.Secret_Key = secret_Key;
+        Constant.App_Key = app_Key;
 
         OnboardHandler = new Handler() {
             @Override
@@ -120,6 +139,5 @@ public class QverifierAuthentication {
 
     public static void validate_otp(String otp){
         String status=check_otp(otp);
-    Log.e("StatusCode",status+"OTP-"+otp);
 }
 }

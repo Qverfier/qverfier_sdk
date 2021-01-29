@@ -3,14 +3,14 @@ package com.call_auth;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.os.Bundle;
 import android.telephony.TelephonyManager;
-import android.widget.Toast;
+import android.util.Log;
 
-import com.utility.AuthAction;
+import com.utility.Constant;
 
 import java.lang.reflect.Method;
-
-import static com.utility.AuthAction.ACTION_NUM;
+import static com.utility.Constant.Response_Message;
 
 public class IncomingCallReceiver extends BroadcastReceiver {
     @Override
@@ -31,15 +31,11 @@ public class IncomingCallReceiver extends BroadcastReceiver {
                     telephonyService = (ITelephony) m.invoke(tm);
 
                     if ((number != null)) {
-//                        telephonyService.endCall();
-                     //   Toast.makeText(context, "Ending the call from: " + number, Toast.LENGTH_SHORT).show();
                     }
 
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
-
-                /*   Toast.makeText(context, "Ring " + number, Toast.LENGTH_SHORT).show();*/
                 if (number == null) {
 
                 } else if (number.equals("null")) {
@@ -47,18 +43,17 @@ public class IncomingCallReceiver extends BroadcastReceiver {
                 } else if (number.equals("")) {
 
                 } else {
-                    if (ACTION_NUM.equals(number)) {
-                        AuthAction.Action_Data = "Success";
-                        //  Toast.makeText(context, "AuthCALL Successful-: " + number, Toast.LENGTH_SHORT).show();
+                    if (Response_Message.equals(number)) {
+                        Constant.Action_Data = "Success";
+
                     }
+
 
                 }
             }
             if(state.equalsIgnoreCase(TelephonyManager.EXTRA_STATE_OFFHOOK)){
-           //     Toast.makeText(context, "Answered " + number, Toast.LENGTH_SHORT).show();
             }
             if(state.equalsIgnoreCase(TelephonyManager.EXTRA_STATE_IDLE)){
-               // Toast.makeText(context, "Idle "+ number, Toast.LENGTH_SHORT).show();
             }
 
 

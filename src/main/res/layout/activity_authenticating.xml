@@ -1,26 +1,54 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:padding="50dp"
+
+    android:background="@drawable/background"
     android:layout_height="match_parent"
-    tools:context=".AuthCALL">
+    tools:context=".AuthenticationByCall">
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_gravity="right"
+        android:gravity="right"
+        android:layout_marginTop="10dp"
+        android:layout_marginRight="20dp"
+        android:id="@+id/counttime"
+        android:layout_height="wrap_content"
+android:textColor="#fff"
+        android:textSize="21dp"
+
+        android:text="00"></TextView>
     <LinearLayout
         android:layout_width="match_parent"
-        android:gravity="center"
+        android:layout_marginTop="90dp"
         android:orientation="vertical"
+        android:layout_height="match_parent">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_gravity="center"
+        android:gravity="center"
         android:layout_height="wrap_content">
-        <TextView
+        <ImageView
+            android:layout_width="90dp"
+            android:id="@+id/thumbs_icon"
+            android:visibility="gone"
+            android:src="@drawable/thumbs"
+            android:layout_height="90dp"></ImageView>
+    </LinearLayout>
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_gravity="right"
-            android:gravity="right"
-          android:id="@+id/counttime"
-            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:layout_height="wrap_content">
+            <pl.droidsonroids.gif.GifImageView
+                android:layout_width="80dp"
+                android:layout_height="80dp"
+                android:src="@drawable/call_new"
+                android:id="@+id/callgif"
+                />
+        </LinearLayout>
 
-            android:textSize="21dp"
-
-            android:text="20"></TextView>
         <TextView
             android:layout_width="match_parent"
             android:layout_gravity="center"
@@ -28,32 +56,46 @@
             android:layout_marginTop="20dp"
             android:layout_height="wrap_content"
             android:textStyle="bold"
-            android:textSize="27dp"
+            android:textSize="24dp"
 android:id="@+id/text_message"
-            android:text="MISSEDCALL \nAUTHENTICATION "></TextView>
+            android:textColor="#fff"
+            android:text="Please wait for our call"></TextView>
         <TextView
             android:layout_width="match_parent"
             android:layout_gravity="center"
             android:gravity="center"
             android:layout_marginTop="20dp"
             android:layout_height="wrap_content"
-            android:textSize="19dp"
+
+            android:textColor="#fff"
 android:id="@+id/text_other"
-            android:text="Not required for  receive call"></TextView>
+            android:text="There is no need to answer this call unless \n you want to speak with a robot"></TextView>
         <pl.droidsonroids.gif.GifImageView
             android:layout_width="110dp"
             android:layout_marginTop="40dp"
             android:layout_height="110dp"
-            android:id="@+id/calling_gif"
-            android:src="@drawable/calling"
-            />
-        <pl.droidsonroids.gif.GifImageView
-            android:layout_width="110dp"
-            android:layout_marginTop="40dp"
-            android:layout_height="110dp"
+            android:visibility="gone"
             android:id="@+id/success"
             android:src="@drawable/success"
             />
     </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:gravity="center"
 
-</LinearLayout>
+        android:layout_alignParentBottom="true"
+
+        android:orientation="horizontal"
+        android:id="@+id/continue_layout"
+        android:shrinkColumns="*"
+        android:stretchColumns="*">
+        <TextView
+            android:layout_width="match_parent"
+            android:text="Powered by Qverifier"
+            android:gravity="center"
+            android:textColor="#fff"
+            android:layout_height="wrap_content"></TextView>
+
+    </LinearLayout>
+</RelativeLayout>

@@ -1,4 +1,4 @@
-package com.vedanta_ias_academy.utility;
+package com.utility;
 
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -6,82 +6,61 @@ import android.content.SharedPreferences;
 /**
  * Created by coderzlab on 16/7/15.
  */
-public class PreferancesUserData {
+public class PreferancesData {
 
 
-    public static boolean saveUserID(Context context, String UserID){
+    public static boolean saveLastAction(Context context, String LastAction){
         SharedPreferences sharedPreferences=getPreferances(context);
-        return sharedPreferences.edit().putString("UserID",UserID).commit();
+        return sharedPreferences.edit().putString("LastAction",LastAction).commit();
     }
-    public static String getUserID(Context context){
+    public static String getLastAction(Context context){
         SharedPreferences sharedPreferences=getPreferances(context);
-        return sharedPreferences.getString("UserID", null);
+        return sharedPreferences.getString("LastAction", null);
+    }
+    public static boolean saveMissedCallAuthentication(Context context, String MissedCallAuthentication){
+        SharedPreferences sharedPreferences=getPreferances(context);
+        return sharedPreferences.edit().putString("MissedCallAuthentication",MissedCallAuthentication).commit();
+    }
+    public static String getMissedCallAuthentication(Context context){
+        SharedPreferences sharedPreferences=getPreferances(context);
+        return sharedPreferences.getString("MissedCallAuthentication", null);
+    }
+
+    public static boolean saveMobileNumber(Context context, String MobileNumber){
+        SharedPreferences sharedPreferences=getPreferances(context);
+        return sharedPreferences.edit().putString("MobileNumber",MobileNumber).commit();
+    }
+    public static String getMobileNumber(Context context){
+        SharedPreferences sharedPreferences=getPreferances(context);
+        return sharedPreferences.getString("MobileNumber", null);
+    }
+    public static boolean saveTimeCounter(Context context, String TimeCounter){
+        SharedPreferences sharedPreferences=getPreferances(context);
+        return sharedPreferences.edit().putString("TimeCounter",TimeCounter).commit();
+    }
+    public static String getTimeCounter(Context context){
+        SharedPreferences sharedPreferences=getPreferances(context);
+        return sharedPreferences.getString("TimeCounter", null);
     }
 
 
-    public static boolean savephonenumber(Context context, String phonenumber){
+    public static boolean saveVOICE_OTP_Response(Context context, String TimeCounter){
         SharedPreferences sharedPreferences=getPreferances(context);
-        return sharedPreferences.edit().putString("phonenumber",phonenumber).commit();
+        return sharedPreferences.edit().putString("VOICE_OTP_Response",TimeCounter).commit();
     }
-    public static String getphonenumber(Context context){
+    public static String getVOICE_OTP_Response(Context context){
         SharedPreferences sharedPreferences=getPreferances(context);
-        return sharedPreferences.getString("phonenumber", null);
+        return sharedPreferences.getString("VOICE_OTP_Response", null);
     }
-
-
-    public static boolean saveemail(Context context, String email){
+/*
+    public static boolean saveAPIResponse(Context context, String APIResponse){
         SharedPreferences sharedPreferences=getPreferances(context);
-        return sharedPreferences.edit().putString("email",email).commit();
+        return sharedPreferences.edit().putString("APIResponse",APIResponse).commit();
     }
-    public static String getemail(Context context){
+    public static String getAPIResponse(Context context){
         SharedPreferences sharedPreferences=getPreferances(context);
-        return sharedPreferences.getString("email", null);
-    }
-
-    public static boolean saveUserName(Context context, String UserName){
-        SharedPreferences sharedPreferences=getPreferances(context);
-        return sharedPreferences.edit().putString("UserName",UserName).commit();
-    }
-    public static String getUserName(Context context){
-        SharedPreferences sharedPreferences=getPreferances(context);
-        return sharedPreferences.getString("UserName", null);
-    }
-
-    public static boolean saveFatherName(Context context, String FatherName){
-        SharedPreferences sharedPreferences=getPreferances(context);
-        return sharedPreferences.edit().putString("FatherName",FatherName).commit();
-    }
-    public static String getFatherName(Context context){
-        SharedPreferences sharedPreferences=getPreferances(context);
-        return sharedPreferences.getString("FatherName", null);
-    }
-
-    public static boolean saveUserGender(Context context, String UserGender){
-        SharedPreferences sharedPreferences=getPreferances(context);
-        return sharedPreferences.edit().putString("UserGender",UserGender).commit();
-    }
-    public static String getUserGender(Context context){
-        SharedPreferences sharedPreferences=getPreferances(context);
-        return sharedPreferences.getString("UserGender", null);
-    }
-
-    public static boolean savePayment(Context context, String Payment){
-        SharedPreferences sharedPreferences=getPreferances(context);
-        return sharedPreferences.edit().putString("Payment",Payment).commit();
-    }
-    public static String getPayment(Context context){
-        SharedPreferences sharedPreferences=getPreferances(context);
-        return sharedPreferences.getString("Payment", null);
-    }
-
-    public static boolean savePlanExpaire(Context context, String PlanExpaire){
-        SharedPreferences sharedPreferences=getPreferances(context);
-        return sharedPreferences.edit().putString("PlanExpaire",PlanExpaire).commit();
-    }
-    public static String getPlanExpaire(Context context){
-        SharedPreferences sharedPreferences=getPreferances(context);
-        return sharedPreferences.getString("PlanExpaire", null);
-    }
+        return sharedPreferences.getString("APIResponse", null);
+    }*/
 // HIERARCHY_SALES_USERNAME
 
     public  static SharedPreferences getPreferances(Context context){

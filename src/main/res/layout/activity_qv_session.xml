@@ -1,12 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:orientation="vertical"
-    android:background="#1A52C1"
+    android:background="@drawable/background"
     android:layout_height="match_parent"
-    tools:context=".SessionStart">
+    tools:context=".QVSession">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:orientation="vertical"
+        android:layout_height="match_parent">
     <LinearLayout
         android:layout_width="match_parent"
         android:orientation="vertical"
@@ -21,7 +25,7 @@
 
             android:textSize="23dp"
             android:layout_height="wrap_content"
-            android:text="Activate"></TextView>
+            android:text=""></TextView>
         <ImageView
             android:layout_width="100dp"
             android:id="@+id/logo"
@@ -32,16 +36,25 @@
             android:layout_marginTop="40dp"
             android:layout_gravity="center"
             android:gravity="center"
-            android:textSize="21dp"
+            android:textSize="24dp"
+android:layout_marginLeft="10dp"            android:textColor="#fff"
+            android:text="Please Enter "></TextView>
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:textSize="24dp"
             android:textColor="#fff"
-            android:text="Please Enter \n Your Phone Number"></TextView>
+            android:text="Your Phone Number"></TextView>
     </LinearLayout>
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_margin="20dp"
         android:gravity="center"
         android:layout_marginTop="70dp"
-android:id="@+id/startung_ui"
+android:id="@+id/linearlayout_base"
         android:orientation="vertical"
 
         android:layout_height="wrap_content">
@@ -50,7 +63,7 @@ android:id="@+id/startung_ui"
     android:layout_gravity="center"
     android:gravity="center"
     android:id="@+id/text_error"
-    android:textColor="#F50B0B"
+    android:textColor="#fa6e67"
     android:text="* Mobile number is required"
     android:layout_height="wrap_content">
 
@@ -67,14 +80,14 @@ android:id="@+id/startung_ui"
             android:background="@drawable/edit_text"
             android:padding="5dp">
             <ImageView
-                android:layout_width="30dp"
+                android:layout_width="20dp"
                 android:src="@drawable/india_new"
-                android:layout_height="30dp"></ImageView>
+                android:layout_height="20dp"></ImageView>
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="24dp"
+
                 android:layout_marginLeft="03dp"
                 android:textColor="#000"
                 android:text="+91 "></TextView>
@@ -90,13 +103,15 @@ android:layout_marginTop="5dp"
                 android:singleLine="true"
                 android:background="@null"
                 android:text=""
+                android:textCursorDrawable="@drawable/cursoer"
+                android:maxLength="10"
+                app:clearIconDrawable="@drawable/ic_cross_icon"
                 android:layout_marginLeft="5dp"
                 android:layout_height="match_parent"
                 android:hint="Enter phone number"
-                android:textColorHint="#CCCED3"
-                android:textColor="#1A52C1"
+                android:textColorHint="#7f8fa4"
+                android:textColor="#7f8fa4"
                 android:inputType="number"
-                android:textSize="17sp"
                 android:textStyle="normal" />
 
         </LinearLayout>
@@ -109,9 +124,26 @@ android:layout_marginTop="5dp"
             android:ems="10"
             android:layout_margin="10dp"
             android:padding="5dp"
-            android:text="Submit"
+            android:textSize="20dp"
+            android:text="GET Started"
             android:id="@+id/submit_data"
-            android:background="@drawable/submit_button"/>
+            android:background="@drawable/button"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:id="@+id/loder_text"
+            android:textColor="#ffff"
+            android:layout_height="wrap_content"
+            android:text="Please wait...."></TextView>
+        <ProgressBar
+            android:id="@+id/ProgressBar"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:tooltipText="Wait"
+            style="?android:attr/progressBarStyleLarge"
+            android:progressDrawable="@drawable/circle_shape_progressbar"
+            android:indeterminateDrawable="@drawable/progressbar"
+            android:progress="50"
+            />
 
     </LinearLayout>
 
@@ -125,24 +157,27 @@ android:layout_marginTop="5dp"
         android:layout_height="wrap_content">
 
 
-<TextView
-    android:layout_width="match_parent"
-    android:text="Powered by Qverifier"
-    android:gravity="center"
-    android:textColor="#fff"
-    android:layout_height="wrap_content"></TextView>
 
+
+    </LinearLayout>
     </LinearLayout>
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_margin="20dp"
+        android:layout_height="50dp"
         android:gravity="center"
-        android:id="@+id/sms_ui"
-        android:orientation="vertical"
 
-        android:layout_height="wrap_content">
+        android:layout_alignParentBottom="true"
 
-
+        android:orientation="horizontal"
+        android:id="@+id/continue_layout"
+        android:shrinkColumns="*"
+        android:stretchColumns="*">
+        <TextView
+            android:layout_width="match_parent"
+            android:text="Powered by Qverifier"
+            android:gravity="center"
+            android:textColor="#fff"
+            android:layout_height="wrap_content"></TextView>
 
     </LinearLayout>
-</LinearLayout>
+</RelativeLayout>

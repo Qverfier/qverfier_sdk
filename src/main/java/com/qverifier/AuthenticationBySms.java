@@ -10,9 +10,13 @@ import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.os.Handler;
 import android.os.Message;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -24,6 +28,9 @@ import com.google.android.gms.auth.api.phone.SmsRetrieverClient;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.networking.PostServer;
+import com.utility.Constant;
+import com.utility.PreferancesData;
+import com.utility.QVAction;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -31,60 +38,83 @@ import org.json.JSONObject;
 import pl.droidsonroids.gif.GifImageView;
 
 import static com.qverifier.QVAuthentication.mHandler;
-import static com.utility.Constant.ACTION_NUM;
+import static com.utility.Constant.Response_Message;
 import static com.utility.Constant.ACTION_TYPE;
 import static com.utility.Constant.Failed_Response;
 import static com.utility.Constant.Success_;
-import static com.utility.JSON_Data.api_failed;
+import static com.utility.JSON_Data.api_error;
+import static com.utility.JSON_Data.api_key_error;
+import static com.utility.JSON_Data.limit_reached;
 import static com.utility.JSON_Data.press_back;
 import static com.utility.JSON_Data.request_;
+import static com.utility.JSON_Data.server_key_error;
+import static com.utility.JSON_Data.server_reject_error;
 import static com.utility.JSON_Data.success_data;
 import static com.utility.Constant.url;
 import static com.utility.TimeCoins.Time_COUNTER;
 import static com.utility.TimeCoins.Time_INTERVAL;
 import static com.utility.TimeCoins.Time_START;
 
-public class AuthSMS extends AppCompatActivity  {
+public class AuthenticationBySms extends AppCompatActivity implements TextWatcher {
   public static   EditText editText_one,editText_two,editText_three,editText_four;
     static String otp="No",phone;
     Button submit_otp;
-    public  int count=Time_COUNTER;
-    public static TextView text_message,text_other;
+    public  int count,start_time,interval_time;
+    public static TextView text_message,text_other,text_expire;
     LinearLayout layout_otp;
     boolean doubleBackToExitPressedOnce = false;
     public static GifImageView calling_gif;
     private static final int REQ_USER_CONSENT = 200;
     SmsBroadcastReceiver smsBroadcastReceiver;
+    CountDownTimer count_down=null;
+    ImageView thumbs_icon;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
+                WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.activity_sms__authentication);
+        thumbs_icon=findViewById(R.id.thumbs_icon);
         editText_one=findViewById(R.id.editTextone);
         editText_two=findViewById(R.id.editTexttwo);
         editText_three=findViewById(R.id.editTextthree);
         editText_four=findViewById(R.id.editTextfour);
         layout_otp=findViewById(R.id.layout_otp);
+        text_expire=findViewById(R.id.text_expire);
+        thumbs_icon.setVisibility(View.GONE);
         getSupportActionBar().hide();
         final TextView counttime=findViewById(R.id.counttime);
         text_message=findViewById(R.id.text_message);
         text_other=findViewById(R.id.text_other);
         ACTION_TYPE="SMS";
-     /*   submit_otp.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-
-            }
-        });*/
+        editText_one.addTextChangedListener(this);
+        editText_two.addTextChangedListener(this);
+        editText_three.addTextChangedListener(this);
+        editText_four.addTextChangedListener(this);
         validating();
+        if(PreferancesData.getTimeCounter(AuthenticationBySms.this)==null){
 
-        new CountDownTimer(Time_START,Time_INTERVAL) {
+            count=Time_COUNTER;
+            interval_time=Time_INTERVAL;
+            start_time=Time_START;
+        }
+        else {
+            count= Integer.parseInt(PreferancesData.getTimeCounter(AuthenticationBySms.this));
+            interval_time=Time_INTERVAL;
+            start_time=Integer.parseInt(PreferancesData.getTimeCounter(AuthenticationBySms.this))*1000;
+        }
+     count_down=   new CountDownTimer(start_time,interval_time) {
             @Override
             public void onTick(long millisUntilFinished) {
-              //  otp=editText_one.getText().toString();
-if(ACTION_NUM.contains(otp)){
+                counttime.setText(String.valueOf(count)+":00");
+                count--;
+                PreferancesData.saveTimeCounter(AuthenticationBySms.this, String.valueOf(count));
+       if(Response_Message.contains(otp)){
     text_message.setText(R.string.call_success);
     text_other.setText(R.string.message_success);
     layout_otp.setVisibility(View.GONE);
+           thumbs_icon.setVisibility(View.VISIBLE);
+           text_expire.setVisibility(View.GONE);
     final Handler handler = new Handler();
 
     handler.postDelayed(new Runnable() {
@@ -99,36 +129,70 @@ if(ACTION_NUM.contains(otp)){
             finish();
 
         }
-    }, 900);
-    cancel();
+    }, 7000);
+    count_down.cancel();
 
-}
-                counttime.setText(String.valueOf(count)+":00");
-                count--;
-
-            }
+} }
             @Override
             public void onFinish() {
-                cancel();
+                count_down.cancel();
+                PreferancesData.saveTimeCounter(AuthenticationBySms.this, null);
                 text_message.setText("Authentication Failed");
-                text_other.setVisibility(View.GONE);
+                text_other.setText("Try to another way");
                 counttime.setVisibility(View.GONE);
                 editText_one.setVisibility(View.GONE);
-                Ui_itrupt();
-
+                editText_four.setVisibility(View.GONE);
+                editText_three.setVisibility(View.GONE);
+                editText_two.setVisibility(View.GONE);
+                authentication_failed();
             }
         }.start();
     }
+    @Override
+    public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
 
-    public void Ui_itrupt(){
-        text_message.setText("Failed");
-        text_other.setVisibility(View.GONE);
-     //   calling_gif.setVisibility(View.GONE);
+    }
+
+    @Override
+    public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+    }
+
+    @Override
+    public void afterTextChanged(Editable editable) {
+        if (editable.length() == 1) {
+            if (editText_one.length() == 1) {
+                editText_two.requestFocus();
+            }
+
+            if (editText_two.length() == 1) {
+                editText_three.requestFocus();
+            }
+            if (editText_three.length() == 1) {
+                editText_four.requestFocus();
+            }
+        } else if (editable.length() == 0) {
+            if (editText_four.length() == 0) {
+                editText_three.requestFocus();
+            }
+            if (editText_three.length() == 0) {
+                editText_two.requestFocus();
+            }
+            if (editText_two.length() == 0) {
+                editText_one.requestFocus();
+            }
+        }
+    }
+    public void authentication_failed(){
+        text_message.setText("Authentication Failed");
+        text_other.setVisibility(View.VISIBLE);
+        text_expire.setVisibility(View.GONE);
         final Handler handler = new Handler();
         handler.postDelayed(new Runnable() {
             @Override
             public void run() {
-                Intent intent = new Intent(AuthSMS.this, AuthVOICE.class);
+                PreferancesData.saveLastAction(AuthenticationBySms.this, null);
+                Intent intent = new Intent(AuthenticationBySms.this, AuthenticationByVoiceOtp.class);
                 startActivity(intent);
                 finish();
 
@@ -141,14 +205,11 @@ if(ACTION_NUM.contains(otp)){
 
     public void  validating(){
         try {
-
-
             JSONObject json = request_();
-            System.out.print("RequestSMS----"+String.valueOf(json));
-            new PostServer(AuthSMS.this).commonServiceForPost(url, json,new  VolleyResponseListener(){
+            new PostServer(AuthenticationBySms.this).commonServiceForPost(url, json,new  VolleyResponseListener(){
                 @Override
                 public void onError(String message) {
-                    Failed_Response=api_failed;
+                    Failed_Response=api_error;
                     Message msg = mHandler.obtainMessage();
                     Bundle bundle = new Bundle();
                     bundle.putString("Status", "Failed");
@@ -161,14 +222,25 @@ if(ACTION_NUM.contains(otp)){
                 public void onResponse(Object response) {
                     try {
                         JSONObject response1 = new JSONObject(String.valueOf(response));
-                        System.out.print("Responseserver----"+String.valueOf(response));
                         if (response1.getString("status").equals("Success")) {
-
-                            ACTION_NUM=response1.getString("message");
+                            PreferancesData.saveLastAction(AuthenticationBySms.this, Constant.ACTION_TYPE);
+                            Response_Message=response1.getString("message");
                             startSmsUserConsent();
                         }
                         else {
+                            if(response1.getString("message").equals(R.string.invalid_key))
+                                Failed_Response=api_key_error;
+                            else if(response1.getString("message").equals(R.string.invalid_secret))
+                                Failed_Response=server_key_error;
+                            else if(response1.getString("message").contains("limit")) {
+                                PreferancesData.saveLastAction(AuthenticationBySms.this, null);
+                                PreferancesData.saveTimeCounter(AuthenticationBySms.this, null);
+                                Failed_Response = limit_reached;
+                            }
+                            else
+                                Failed_Response=server_reject_error;
 
+                            failed();
                         }
                     } catch (JSONException e) {
                         e.printStackTrace();
@@ -186,17 +258,13 @@ if(ACTION_NUM.contains(otp)){
 
     private void startSmsUserConsent() {
         SmsRetrieverClient client = SmsRetriever.getClient(this);
-        //We can add sender phone number or leave it blank
-        // I'm adding null here
         client.startSmsUserConsent(null).addOnSuccessListener(new OnSuccessListener<Void>() {
             @Override
             public void onSuccess(Void aVoid) {
-               // Toast.makeText(getApplicationContext(), "On Success", Toast.LENGTH_LONG).show();
             }
         }).addOnFailureListener(new OnFailureListener() {
             @Override
             public void onFailure(@NonNull Exception e) {
-               // Toast.makeText(getApplicationContext(), "On OnFailure", Toast.LENGTH_LONG).show();
             }
         });
     }
@@ -206,29 +274,27 @@ if(ACTION_NUM.contains(otp)){
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == REQ_USER_CONSENT) {
             if ((resultCode == RESULT_OK) && (data != null)) {
-                //That gives all message to us.
-                // We need to get the code from inside with regex
                 String message = data.getStringExtra(SmsRetriever.EXTRA_SMS_MESSAGE);
-               // String sender = data.getStringExtra(SmsRetriever.);
-                Toast.makeText(getApplicationContext(), message, Toast.LENGTH_LONG).show();
-
                 getOtpFromMessage(message);
             }
         }
     }
 
     private void getOtpFromMessage(String message) {
-        // This will match any 6 digit number in the message
-otp=message;
-        char c=otp.charAt(0);//returns h
-       String otp_1= String.valueOf(c);
-        editText_one.setText(otp_1);
-        char c1=otp.charAt(1);//returns h
-        editText_two.setText(String.valueOf(c1));
-        char c2=otp.charAt(2);//returns h
-        editText_three.setText(String.valueOf(c2));
-        char c3=otp.charAt(3);//returns h
-        editText_four.setText(String.valueOf(c3));
+        if(message.contains("Qverifier")){
+            String[] parsing = message.split("code is");
+            otp=parsing[1].replace(" ","");
+            char c=otp.charAt(0);
+            String otp_1= String.valueOf(c);
+            editText_one.setText(otp_1);
+            char c1=otp.charAt(1);
+            editText_two.setText(String.valueOf(c1));
+            char c2=otp.charAt(2);
+            editText_three.setText(String.valueOf(c2));
+            char c3=otp.charAt(3);
+            editText_four.setText(String.valueOf(c3));
+        }
+
     }
 
     private void registerBroadcastReceiver() {
@@ -266,18 +332,15 @@ otp=message;
     public void onBackPressed() {
         if (doubleBackToExitPressedOnce) {
             super.onBackPressed();
-            Failed_Response=press_back;
-            Message msg = mHandler.obtainMessage();
-            Bundle bundle = new Bundle();
-            bundle.putString("Status", "Failed");
-            msg.setData(bundle);
-            mHandler.sendMessage(msg);
+            count_down.cancel();
+            Intent intent =new Intent(AuthenticationBySms.this,QVSession.class);
+            startActivity(intent);
             finish();
             return;
         }
 
         this.doubleBackToExitPressedOnce = true;
-        Toast.makeText(this, "Please click BACK again to exit", Toast.LENGTH_SHORT).show();
+        Toast.makeText(this, "Click \"Back\" to exitt", Toast.LENGTH_SHORT).show();
 
         new Handler().postDelayed(new Runnable() {
 
@@ -286,5 +349,31 @@ otp=message;
                 doubleBackToExitPressedOnce=false;
             }
         }, 2000);
+    }
+
+    protected void onResume() {
+        super.onResume();
+    }
+    @Override
+
+    protected void onPause() {
+        super.onPause();//invisible
+
+    }
+
+    @Override
+
+    protected void onDestroy() {
+        super.onDestroy();
+        count_down.cancel();
+    }
+    public  void failed(){
+
+        Message msg = mHandler.obtainMessage();
+        Bundle bundle = new Bundle();
+        bundle.putString("Status", "Failed");
+        msg.setData(bundle);
+        mHandler.sendMessage(msg);
+        finish();
     }
 }

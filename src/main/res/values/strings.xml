@@ -1,8 +1,9 @@
 <resources>
     <string name="app_name">qverifier</string>
-    <string name="call_success">"AuthCALL \n Success"</string>
+    <string name="call_success">"Congratulation"</string>
+    <string name="message_success">"Your phone number has been verified."</string>
     <string name="back_press">"AuthCALL \n Success"</string>
-    <string name="invalid_key">"Invalid App Key"</string>
-    <string name="invalid_secret">"Invalid Secret Key"</string>
-    <string name="invalid_number">"Invalid Secret Key"</string>
+    <string name="invalid_key">"The App Key entered is invalid. Please try again."</string>
+    <string name="invalid_secret">"The Secret Key entered is invalid. Please try again"</string>
+    <string name="invalid_number">"The number you entered is invalid. Please try again."</string>
 </resources>
