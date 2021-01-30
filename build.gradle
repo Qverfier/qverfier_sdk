@@ -1,6 +1,11 @@
 apply plugin: 'com.android.library'
-apply plugin: 'maven-publish'
 
+repositories {
+    mavenCentral()
+    maven {
+        url 'https://www.jitpack.io'
+    }
+}
 
 android {
     compileSdkVersion 30
@@ -16,22 +21,7 @@ android {
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles 'consumer-rules.pro'
     }
-    def getVersionName = { ->
-        return "1.0.1"  // Replace with version Name
-    }
-    def getArtificatId = { ->
-        return "com.qverifier" // Replace with library name ID
-    }
-    publishing {
-        publications {
-            bar(MavenPublication) {
-                groupId 'auth' // Replace with group ID
-                artifactId getArtificatId()
-                version getVersionName()
-                artifact("$buildDir/outputs/aar/${getArtificatId()}-release.aar")
-            }
-        }
-    }
+
             buildTypes {
         release {
             minifyEnabled false
@@ -48,11 +38,7 @@ repositories {
          */
         url = uri("https://maven.pkg.github.com/GITHUB_USERID/REPOSITORY")
 
-        credentials {
-            /**Create github.properties in root project folder file with gpr.usr=GITHUB_USER_ID  & gpr.key=PERSONAL_ACCESS_TOKEN**/
-            username = ""
-            password = ""
-        }
+
     }
 }
 dependencies {
