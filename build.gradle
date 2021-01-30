@@ -7,7 +7,29 @@ repositories {
         url 'https://www.jitpack.io'
     }
 }
+afterEvaluate {
+    publishing {
+        publications {
+            paidRelease(MavenPublication) {
+              // The following applies a component to this publication
+              // which results in publishing an app bundle.
+              from components.paidRelease_aab
 
+              groupId = 'com.auth'
+              artifactId = 'qverifier'
+              version = '1.0'
+            }
+            paidDebug(MavenPublication) {
+              // The following applies a component to this publication
+              // which results in publishing APKs in a ZIP file.
+              from components.paidDebug_apk
+
+              groupId = 'com.auth'
+              artifactId = 'qverifier'
+              version = '1.0'
+            }
+        }
+    }
 android {
     compileSdkVersion 30
     buildToolsVersion "29.0.3"
